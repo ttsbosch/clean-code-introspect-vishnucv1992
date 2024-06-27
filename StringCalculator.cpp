@@ -1,6 +1,5 @@
 #include "StringCalculator.h"
 
-#include "StringCalculator.h"
 #include <sstream>
 
 // Implementation of comma-separated parsing strategy
