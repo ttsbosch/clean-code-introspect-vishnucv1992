@@ -1,6 +1,6 @@
 #include "StringCalculator.h"
 
-int StringCalculator::add(string input)
+int StringCalculator::add(const std::string& input)
 {
     std::stringstream ss(input);
     std::string token;
