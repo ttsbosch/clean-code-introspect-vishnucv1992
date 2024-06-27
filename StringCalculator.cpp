@@ -1,36 +1,51 @@
 #include "StringCalculator.h"
 
-#include <stdexcept>
+#include "StringCalculator.h"
+#include <sstream>
 
-// Strategy interface for different parsing strategies
-class InputParserStrategy {
-public:
-    virtual int parseAndCalculate(const std::string& input) = 0;
-};
+// Implementation of comma-separated parsing strategy
+int CommaSeparatedParser::parseAndCalculate(const std::string& input) {
+    std::stringstream ss(input);
+    std::string token;
+    int sum = 0;
+    
+    while (getline(ss, token, ',')) {
+        std::stringstream ss_token(token);
+        std::string subtoken;
+        
+        while (getline(ss_token, subtoken, '\n')) {
+            int num = std::stoi(subtoken);
+            sum += num;
+        }
+    }
+    
+    return sum;
+}
 
-// Concrete strategy for comma-separated input
-class CommaSeparatedParser : public InputParserStrategy {
-public:
-    int parseAndCalculate(const std::string& input) override;
-};
+// Implementation of newline-separated parsing strategy
+int NewlineSeparatedParser::parseAndCalculate(const std::string& input) {
+    std::stringstream ss(input);
+    std::string token;
+    int sum = 0;
+    
+    while (getline(ss, token, '\n')) {
+        int num = std::stoi(token);
+        sum += num;
+    }
+    
+    return sum;
+}
 
-// Concrete strategy for newline-separated input
-class NewlineSeparatedParser : public InputParserStrategy {
-public:
-    int parseAndCalculate(const std::string& input) override;
-};
+// Implementation of add method using strategy
+int StringCalculator::add(const std::string& input) {
+    int sum = parserStrategy->parseAndCalculate(input);
+    return sum;
+}
 
-// Context class that uses the strategy
-class StringCalculator {
-private:
-    InputParserStrategy* parserStrategy;
-
-public:
-    StringCalculator(InputParserStrategy* strategy) : parserStrategy(strategy) {}
-
-    // Method to add integers based on current strategy
-    int add(const std::string& input);
-
-    // Utility function to check for negative numbers
-    void checkForNegatives(const std::string& token);
-};
+// Utility function to check for negative numbers
+void StringCalculator::checkForNegatives(const std::string& token) {
+    int num = std::stoi(token);
+    if (num < 0) {
+        throw std::runtime_error("Negatives not allowed");
+    }
+}
