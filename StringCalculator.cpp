@@ -6,13 +6,18 @@ int StringCalculator::add(const std::string& input)
     std::string token;
     int sum = 0;
     
-        // Split by comma and calculate sum
+        // Split by comma or newline and calculate sum
         while (getline(ss, token, ',')) {
-            int num = std::stoi(token); // Convert string to integer
-            if (num < 0) {
-                throw std::runtime_error("Negatives not allowed");
+            std::stringstream ss_token(token);
+            std::string subtoken;
+            
+            while (getline(ss_token, subtoken, '\n')) {
+                int num = std::stoi(subtoken); // Convert string to integer
+                if (num < 0) {
+                    throw std::runtime_error("Negatives not allowed");
+                }
+                sum += num; // Add to sum
             }
-            sum += num; // Add to sum
         }
     
     return sum;
