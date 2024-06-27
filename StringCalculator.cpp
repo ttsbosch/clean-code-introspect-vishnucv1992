@@ -1,9 +1,8 @@
 #include "StringCalculator.h"
-
 #include <sstream>
 
 // Implementation of comma-separated parsing strategy
-int CommaSeparatedParser::parseAndCalculate(const std::string& input) {
+int CommaSeparatedParser::parseAndCalculate(const std::string& input) const {
     std::stringstream ss(input);
     std::string token;
     int sum = 0;
@@ -22,7 +21,7 @@ int CommaSeparatedParser::parseAndCalculate(const std::string& input) {
 }
 
 // Implementation of newline-separated parsing strategy
-int NewlineSeparatedParser::parseAndCalculate(const std::string& input) {
+int NewlineSeparatedParser::parseAndCalculate(const std::string& input) const {
     std::stringstream ss(input);
     std::string token;
     int sum = 0;
@@ -36,13 +35,13 @@ int NewlineSeparatedParser::parseAndCalculate(const std::string& input) {
 }
 
 // Implementation of add method using strategy
-int StringCalculator::add(const std::string& input) {
-    int sum = parserStrategy->parseAndCalculate(input);
+int StringCalculator::add(const std::string& input) const {
+    int sum = parserStrategy.parseAndCalculate(input);
     return sum;
 }
 
 // Utility function to check for negative numbers
-void StringCalculator::checkForNegatives(const std::string& token) {
+void StringCalculator::checkForNegatives(const std::string& token) const {
     int num = std::stoi(token);
     if (num < 0) {
         throw std::runtime_error("Negatives not allowed");
