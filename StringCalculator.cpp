@@ -1,22 +1,21 @@
 #include "StringCalculator.h"
-#include <sstream>
 
 // Implementation of comma-separated parsing strategy
 int CommaSeparatedParser::parseAndCalculate(const std::string& input) const {
     std::stringstream ss(input);
     std::string token;
     int sum = 0;
-    
+
     while (getline(ss, token, ',')) {
         std::stringstream ss_token(token);
         std::string subtoken;
-        
+
         while (getline(ss_token, subtoken, '\n')) {
             int num = std::stoi(subtoken);
             sum += num;
         }
     }
-    
+
     return sum;
 }
 
@@ -25,16 +24,19 @@ int NewlineSeparatedParser::parseAndCalculate(const std::string& input) const {
     std::stringstream ss(input);
     std::string token;
     int sum = 0;
-    
+
     while (getline(ss, token, '\n')) {
         int num = std::stoi(token);
         sum += num;
     }
-    
+
     return sum;
 }
 
-// Implementation of add method using strategy
+// Constructor with default strategy (comma-separated)
+StringCalculator::StringCalculator() : parserStrategy(CommaSeparatedParser()) {}
+
+// Method to add integers based on current strategy
 int StringCalculator::add(const std::string& input) const {
     int sum = parserStrategy.parseAndCalculate(input);
     return sum;
