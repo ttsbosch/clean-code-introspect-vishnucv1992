@@ -1,5 +1,6 @@
 #include <string>
 #include <stdexcept>
+#include <sstream>
 
 // Strategy interface for different parsing strategies
 class InputParserStrategy {
@@ -26,7 +27,8 @@ private:
     const InputParserStrategy& parserStrategy;
 
 public:
-    StringCalculator(const InputParserStrategy& strategy) : parserStrategy(strategy) {}
+    // Constructor with default strategy (comma-separated)
+    StringCalculator();
 
     // Method to add integers based on current strategy
     int add(const std::string& input) const;
